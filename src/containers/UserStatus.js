@@ -22,10 +22,24 @@ class UserStatus extends Component {
 
     handleSubmit(event){
         event.preventDefault();
-        setTimeout(()=>{
+
+        fetch('http://127.0.0.1:8000/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'text/plain'
+              },
+            body: JSON.stringify({email: this.state.username, password: this.state.password})
+          }).then(res => res.json()).then(json => {
+                console.log(json);
+                localStorage.setItem('access_token', json.access_token);
+                this.props.logIn(this.state.username);
+          });
+
+        /*setTimeout(()=>{
             console.log("hello");
             this.props.logIn(this.state.username);
-        }, 1000);
+        }, 1000);*/
     }
 
     render(){
@@ -42,8 +56,6 @@ class UserStatus extends Component {
                     </label>
                     <input type="submit" value="Submit" />
                 </form>
-                <h1>{this.props.status}</h1>
-                <h1>{this.props.user}</h1>
             </div>
         );
     }
