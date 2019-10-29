@@ -31,9 +31,12 @@ class UserStatus extends Component {
               },
             body: JSON.stringify({email: this.state.username, password: this.state.password})
           }).then(res => res.json()).then(json => {
-                console.log(json);
-                localStorage.setItem('access_token', json.access_token);
-                this.props.logIn(this.state.username);
+                //console.log(json);
+                if(json.access_token){
+                    localStorage.setItem('access_token', json.access_token);
+                    this.props.logIn(this.state.username);
+                    this.props.history.push('/');
+                }
           });
 
         /*setTimeout(()=>{
@@ -44,7 +47,7 @@ class UserStatus extends Component {
 
     render(){
         return (
-            <div>
+            <div className="container">
                 <form onSubmit={this.handleSubmit}>
                     <label>
                     Username:
